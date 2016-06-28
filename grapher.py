@@ -23,8 +23,10 @@ def graph( collection ):
 
     
     for r in collection.find():
+        #print( "Checking...")
         count = r['count']
-        if count > 2000:
+        if count > 2000 :
+            #print( "Plotting: %s" % r[ "Make"])
             m_id = r['_id']
             age.append(m_id['age'])
             if m_id[ 'age'] < 0 :
@@ -40,9 +42,9 @@ def graph( collection ):
     
     figure = pyplot.figure();
     axis = figure.add_subplot(111);
-    axis.scatter(age,reliability,c=colours,picker=5,s=80,alpha=0.3)
+    axis.scatter(age,reliability,c=colours,picker=5,s=500,alpha=0.3)
     
-    axis.set_xlim(-5, 60 )
+    #axis.set_xlim(-5, 60 )
     
     def onpick(event):
         print labels[event.ind[0]]
@@ -56,4 +58,5 @@ if __name__ == "__main__" :
     import pymongo
     mc = pymongo.MongoClient()
     db = mc[ 'vosa']
-    graph(  db.cars_summary )
+    #graph(  db.cars_summary )
+    graph(  db.carsByAgeAndMileage2013 )
