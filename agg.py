@@ -42,6 +42,7 @@ class Agg(object):
         self._agg.append( { "$sample" : { "size" : size  }})
         
         return self
+    
     def match(self, matcher ):
         self._typeCheckDict( matcher )
         self._hasDollarOutCheck( "match: %s" % matcher )

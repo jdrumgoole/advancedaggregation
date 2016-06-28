@@ -19,4 +19,4 @@ def dataCleanse( collection, output=None, limitSize=None ):
                 "TestClassID"  : "4" }
                 
     x = Agg( collection )
-    return x.limit( limitSize ).match( matcher).out( output ).aggregate()
+    return x.limit( limitSize ).match( matcher).out( output ).echo().aggregate()

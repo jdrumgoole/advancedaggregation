@@ -14,8 +14,10 @@ db.results_2013.count()
 doc = db.results_2013.find_one()
 pprint(doc)
 
-#
-# con
+'''
+Some calculations we will use in the script
+'''
+
 ageinusecs = { "$subtract" : [ "$TestDate", "$FirstUseDate" ] }
 ageinyears = { "$divide" :[ ageinusecs , (1000*3600*24*365) ] }
 floorage = { "$floor" : ageinyears }

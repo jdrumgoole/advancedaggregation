@@ -3,6 +3,9 @@
 '''
 from agg import Agg
 
+def cbam( collection ):
+    return carsByAgeAndMileage( collection,  output="carsByAgeAndMileage2013", limit=None )
+
 def carsByAgeAndMileage( collection, output=None, limit=None):
     
     ageinusecs = { "$subtract" : [ "$TestDate", "$FirstUseDate" ] }
@@ -14,10 +17,12 @@ def carsByAgeAndMileage( collection, output=None, limit=None):
                    "TestMileage": 1,"FirstUseDate":1,"Age":floorage,"pass":ispass }
     
     '''
-    Cars that are 20 yrts old or less
+    Cars that are 10 yrs old or less
     '''
     
-    matcher = { "Age" : { "$lt" : 10 }}
+    matcher = { "Age"   : { "$lt" : 10 }, 
+                "Model" : { "$ne" : "UNCLASSIFIED"}, 
+                "Make"  : { "$ne" : "UNCLASSIFIED"}}
 
     grouper = { "_id"    : { "make": "$Make", "model": "$Model", "age" : "$Age" }, 
                 "count"  : {"$sum":1} , 
@@ -27,4 +32,4 @@ def carsByAgeAndMileage( collection, output=None, limit=None):
     sorter = { "count" : -1 }
 
     a = Agg( collection )
-    return a.limit( limit ).project( projection ).match( matcher ).group( grouper ).sort( sorter).echo().aggregate()
+    return a.limit( limit ).project( projection ).match( matcher ).group( grouper ).sort( sorter).out(output).echo().aggregate()
