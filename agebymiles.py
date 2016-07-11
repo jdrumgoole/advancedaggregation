@@ -11,16 +11,20 @@ import time
 client = MongoClient()
 db = client.vosa
 
-filter = {"$match" : { "count" : { "$gte" : 2000 } } }
-sort = {"$sort": { "_id" : 1 }}
-groupmake = { "$group" : { "_id" : "$_id.make" , "years" : { "$push" : { "age" :"$_id.age", "miles" : "$miles" } } } }
-results = db.cars_summary.aggregate([filter,sort,groupmake])
+from agg import Agg
+
+a = Agg( db.cars_summary_2013 )
+a.match( { "count" : { "$gte" : 2000 }} )
+a.sort( { "_id" : 1 } )
+a.group( { "_id" : "$_id.make" , "years" : { "$push" : { "age" :"$_id.age", "miles" : "$miles" }}} )
+a.out( "cars_milesperyear_2013")
+results = a.aggregate()
 
 figure = pyplot.figure();
 axis = figure.add_subplot(111);
 
 makes = {}
-for r in results:
+for r in db.cars_milesperyear_2013.find():
     
     make = r['_id']
     age=[]
@@ -37,4 +41,6 @@ def onpick(event):
     print makes[artist]
 
 figure.canvas.mpl_connect('pick_event',onpick)
+pyplot.xlabel( "Age")
+pyplot.ylabel( "Miles Per Year")
 pyplot.show()

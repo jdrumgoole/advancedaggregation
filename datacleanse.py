@@ -8,7 +8,7 @@ of a vehicle.
 '''
 from agg import Agg
 
-def dataCleanse( collection, output=None, limitSize=None ):
+def dataCleanse( collection, limit=None ):
     
     #
     # Create a collection of clean vehicles with good dates
@@ -19,4 +19,6 @@ def dataCleanse( collection, output=None, limitSize=None ):
                 "TestClassID"  : "4" }
                 
     x = Agg( collection )
-    return x.limit( limitSize ).match( matcher).out( output ).echo().aggregate()
+    x.limit( limit ).match( matcher)
+
+    return x 

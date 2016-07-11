@@ -16,7 +16,7 @@ reliability=[]
 labels = []
 colours = []
 
-for r in db.cars_summary.find():
+for r in db.cars_summary_2013.find():
     count = r['count']
     if count > 2000:
         if r["miles"] < 150000 :
