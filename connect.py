@@ -1,8 +1,14 @@
 import pymongo
 import pprint
+import time
 client = pymongo.MongoClient()
 db = client.vosa
 results2013 = db.results2013
+
+time.sleep( 0.1)
+
+print( "Client: '%s'" % client )
+
 
 def cp( cursor, limit= 0 ):
     
